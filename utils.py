@@ -1,11 +1,8 @@
 import os
 import sys
 import zipfile
-import shutil
-import tempfile
 import requests
 import subprocess
-import winreg
 
 IS_WINDOWS = sys.platform.startswith("win")
 
@@ -62,20 +59,6 @@ def extract_zip(zip_path, dest_dir):
             # Extract the file manually
             with zf.open(member) as source, open(extracted_path, "wb") as target:
                 target.write(source.read())
-
-
-def copy_tree(src, dest):
-    ensure_dir(dest)
-    # copy contents of src into dest (merge)
-    for name in os.listdir(src):
-        s = os.path.join(src, name)
-        d = os.path.join(dest, name)
-        if os.path.isdir(s):
-            if os.path.exists(d):
-                shutil.rmtree(d)
-            shutil.copytree(s, d)
-        else:
-            shutil.copy2(s, d)
 
 
 def run_subprocess(args, env=None, cwd=None, stdout=None, stderr=None, timeout=None):
@@ -200,21 +183,3 @@ else:
             if os.path.isdir(p):
                 results.append({"name": "OBS (detected)", "path": p})
         return results
-
-
-def download_github_archive(owner, repo, ref, dest):
-    # downloads https://github.com/{owner}/{repo}/archive/{ref}.zip
-    url = f"https://github.com/{owner}/{repo}/archive/{ref}.zip"
-    tmp = tempfile.mkdtemp()
-    zip_path = os.path.join(tmp, f"{repo}-{ref}.zip")
-    download_file(url, zip_path)
-    extract_to = os.path.join(tmp, f"{repo}-{ref}")
-    extract_zip(zip_path, extract_to)
-    return extract_to  # top-level extracted dir
-
-
-def download_url_to_temp(url):
-    tmp = tempfile.mkdtemp()
-    fname = os.path.join(tmp, os.path.basename(url.split("?")[0]) or "download.bin")
-    download_file(url, fname)
-    return fname
