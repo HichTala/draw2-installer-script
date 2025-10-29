@@ -124,8 +124,8 @@ class InstallerApp(QtWidgets.QMainWindow):
         self.resize(600, 350)
 
         # Defaults (same URLs as original)
-        self.windows_plugin = "https://github.com/HichTala/draw2-obsplugin/releases/download/0.0.16/draw2-obsplugin-1.0.0-windows-x64.zip"
-        self.python_embed = "https://github.com/HichTala/draw2-obsplugin/releases/download/0.0.16/python-3.12.9-embed-amd64.zip"
+        self.windows_plugin = "https://github.com/HichTala/draw2-obsplugin/releases/download/0.1.0/draw2-obsplugin-1.0.0-windows-x64.zip"
+        self.python_embed = "https://github.com/HichTala/draw2-obsplugin/releases/download/0.1.0/python-3.12.9-embed-amd64.zip"
 
         # central container
         central = QtWidgets.QWidget()
