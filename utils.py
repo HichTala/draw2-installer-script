@@ -82,11 +82,6 @@ def run_python_pip(python_exe, get_pip, requirements_txt, target):
                                              "https://download.pytorch.org/whl/cu126"]))
     # install requirements
     subprocess_return.append(run_subprocess([python_exe, "-m", "pip", "install", "-r", requirements_txt]))
-    # install draw
-    subprocess_return.append(
-        run_subprocess([python_exe, "-m", "pip", "install",
-                        "https://github.com/HichTala/draw2-obsplugin/releases/download/0.1.0/draw-0.0.1-py3-none-any.whl",
-                        "--target", target]))
     return subprocess_return
 
 
