@@ -55,11 +55,13 @@ class InstallerWorker(QtCore.QObject):
             src_data = os.path.join(self.draw_dir, "draw2-obsplugin", "data", "locale")
             dest_dir = os.path.join(self.obs_path, "obs-plugins", "64bit")
             dest_data = os.path.join(self.obs_path, "data", "obs-plugins", "draw2-obsplugin", "locale")
+            dest_decklists = os.path.join(self.obs_path, "data", "obs-plugins", "draw2-obsplugin", "decklists")
             os.makedirs(dest_dir, exist_ok=True)
             if os.path.exists(src_pdb) and os.path.exists(src_dll):
                 shutil.move(src_pdb, os.path.join(dest_dir, "draw2-obsplugin.pdb"))
                 shutil.move(src_dll, os.path.join(dest_dir, "draw2-obsplugin.dll"))
                 shutil.move(src_data, dest_data)
+                os.makedirs(dest_decklists, exist_ok=True)
             else:
                 # If file missing, warn but continue
                 self.status_changed.emit("Warning: expected plugin pdb not found after extract")
