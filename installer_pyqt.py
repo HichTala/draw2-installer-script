@@ -50,22 +50,22 @@ class InstallerWorker(QtCore.QObject):
                 pass
 
             # Move plugin files to OBS plugin dir (create directories if needed)
-            src_pdb = os.path.join(self.draw_dir, "draw2-obsplugin", "bin", "64bit", "draw2-obsplugin.pdb")
-            src_dll = os.path.join(self.draw_dir, "draw2-obsplugin", "bin", "64bit", "draw2-obsplugin.dll")
-            src_data = os.path.join(self.draw_dir, "draw2-obsplugin", "data", "locale")
+            src_pdb = os.path.join(self.draw_dir, "draw2-plugin", "bin", "64bit", "draw2-plugin.pdb")
+            src_dll = os.path.join(self.draw_dir, "draw2-plugin", "bin", "64bit", "draw2-plugin.dll")
+            src_data = os.path.join(self.draw_dir, "draw2-plugin", "data", "locale")
             dest_dir = os.path.join(self.obs_path, "obs-plugins", "64bit")
-            dest_data = os.path.join(self.obs_path, "data", "obs-plugins", "draw2-obsplugin", "locale")
-            dest_decklists = os.path.join(self.obs_path, "data", "obs-plugins", "draw2-obsplugin", "decklists")
+            dest_data = os.path.join(self.obs_path, "data", "obs-plugins", "draw2-plugin", "locale")
+            dest_decklists = os.path.join(self.obs_path, "data", "obs-plugins", "draw2-plugin", "decklists")
             os.makedirs(dest_dir, exist_ok=True)
             if os.path.exists(src_pdb) and os.path.exists(src_dll):
-                shutil.move(src_pdb, os.path.join(dest_dir, "draw2-obsplugin.pdb"))
-                shutil.move(src_dll, os.path.join(dest_dir, "draw2-obsplugin.dll"))
+                shutil.move(src_pdb, os.path.join(dest_dir, "draw2-plugin.pdb"))
+                shutil.move(src_dll, os.path.join(dest_dir, "draw2-plugin.dll"))
                 shutil.move(src_data, dest_data)
                 os.makedirs(dest_decklists, exist_ok=True)
             else:
                 # If file missing, warn but continue
                 self.status_changed.emit("Warning: expected plugin pdb not found after extract")
-            shutil.rmtree(os.path.join(self.draw_dir, "draw2-obsplugin"))
+            shutil.rmtree(os.path.join(self.draw_dir, "draw2-plugin"))
 
             # Download embedded python
             self.status_changed.emit("Downloading python files...")
@@ -126,8 +126,8 @@ class InstallerApp(QtWidgets.QMainWindow):
         self.resize(600, 350)
 
         # Defaults (same URLs as original)
-        self.windows_plugin = "https://github.com/HichTala/draw2-obsplugin/releases/download/0.1.1/draw2-obsplugin-1.0.0-windows-x64.zip"
-        self.python_embed = "https://github.com/HichTala/draw2-obsplugin/releases/download/0.1.1/python-3.12.9-embed-amd64.zip"
+        self.windows_plugin = "https://github.com/HichTala/draw2-plugin/releases/download/0.1.1/draw2-plugin-1.0.0-windows-x64.zip"
+        self.python_embed = "https://github.com/HichTala/draw2-plugin/releases/download/0.1.1/python-3.12.9-embed-amd64.zip"
 
         # central container
         central = QtWidgets.QWidget()
