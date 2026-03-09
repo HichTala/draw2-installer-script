@@ -60,6 +60,8 @@ class InstallerWorker(QtCore.QObject):
             if os.path.exists(src_pdb) and os.path.exists(src_dll):
                 shutil.move(src_pdb, os.path.join(dest_dir, "draw2-plugin.pdb"))
                 shutil.move(src_dll, os.path.join(dest_dir, "draw2-plugin.dll"))
+                if os.path.isfile(os.path.join(dest_data, "locale")):
+                    shutil.rmtree(os.path.join(dest_data, "locale"))
                 shutil.move(src_data, dest_data)
                 os.makedirs(dest_decklists, exist_ok=True)
             else:
