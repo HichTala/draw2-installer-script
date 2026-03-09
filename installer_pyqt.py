@@ -54,7 +54,7 @@ class InstallerWorker(QtCore.QObject):
             src_dll = os.path.join(self.draw_dir, "draw2-plugin", "bin", "64bit", "draw2-plugin.dll")
             src_data = os.path.join(self.draw_dir, "draw2-plugin", "data", "locale")
             dest_dir = os.path.join(self.obs_path, "obs-plugins", "64bit")
-            dest_data = os.path.join(self.obs_path, "data", "obs-plugins", "draw2-plugin", "locale")
+            dest_data = os.path.join(self.obs_path, "data", "obs-plugins", "draw2-plugin")
             dest_decklists = os.path.join(self.obs_path, "data", "obs-plugins", "draw2-plugin", "decklists")
             os.makedirs(dest_dir, exist_ok=True)
             if os.path.exists(src_pdb) and os.path.exists(src_dll):
@@ -126,7 +126,7 @@ class InstallerApp(QtWidgets.QMainWindow):
         self.resize(600, 350)
 
         # Defaults (same URLs as original)
-        plugin_version = "0.1.4"
+        plugin_version = "0.1.5"
         self.windows_plugin = f"https://github.com/HichTala/draw2-plugin/releases/download/{plugin_version}/draw2-plugin-{plugin_version}-windows-x64.zip"
         self.python_embed = f"https://github.com/HichTala/draw2-plugin/releases/download/{plugin_version}/python-3.12.9-embed-amd64.zip"
 
