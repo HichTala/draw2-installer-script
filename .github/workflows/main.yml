@@ -3,17 +3,34 @@ run-name: ${{ github.ref_name }} push run 🚀
 on:
   push:
     branches:
-    - main
+    - master
+
+permissions:
+  contents: write
+
 jobs:
   pyinstaller:
     name: Building Installer ⚙️
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - name: Setup 🛠️
+        uses: actions/checkout@v6
       
-      - name: PyInstaller Windows
-        # You may pin to the exact commit or the version.
-        # uses: JackMcKew/pyinstaller-action-windows@a8dee21ad01bbc7e7363d445bb632691b95ba057
-        uses: JackMcKew/pyinstaller-action-windows@main
+      - name: Running Installer 🚀
+        uses: JackMcKew/pyinstaller-action-windows@v0.1.2
         with:
           path: src
+      
+      - name: Uploading Artifact 📤
+        uses: actions/upload-artifact@v6
+        with:
+          name: draw2-installer
+          path: src/dist/windows
+      
+      - name: Upload to GitHub Release 📦
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: 1.0.0
+          files: src/dist/windows/**
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
