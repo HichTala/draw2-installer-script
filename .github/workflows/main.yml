@@ -13,19 +13,21 @@ jobs:
     name: Building Installer ⚙️
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Setup 🛠️
+        uses: actions/checkout@v2
       
-      - name: PyInstaller Windows
+      - name: Running Installer 🚀
         uses: JackMcKew/pyinstaller-action-windows@v0.1.2
         with:
           path: src
       
-      - uses: actions/upload-artifact@v4
+      - name: Uploading Artifact 📤
+        uses: actions/upload-artifact@v4
         with:
-          name: name-of-artifact
+          name: draw2-installer
           path: src/dist/windows
       
-      - name: Upload to latest GitHub Release
+      - name: Upload to GitHub Release :octocat:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: 1.0.0
