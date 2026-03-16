@@ -30,9 +30,9 @@ jobs:
           pyinstaller --noconsole --clean --noconfirm --noupx --uac-admin --onefile src/installer_pyqt.py --name draw2-plugin-installer --icon=src/icone.ico
 
       - name: Upload artifact 📤
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
-          name: executable-${{ matrix.os }}
+          name: executable-windows
           path: dist/
 
   release:
