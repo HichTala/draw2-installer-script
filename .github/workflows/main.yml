@@ -1,5 +1,5 @@
-name: Build executables
-
+name: CI
+run-name: ${{ github.ref_name }} push run 🚀
 on:
   push:
     tags:
