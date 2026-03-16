@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout code ✅
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Set up Python 🐍
         uses: actions/setup-python@v6
@@ -33,7 +33,7 @@ jobs:
           pyinstaller --noconsole --clean --noconfirm --noupx --uac-admin --onefile src/installer_pyqt.py --name draw2-plugin-installer --icon=src/icone.ico
 
       - name: Upload artifact 📤
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: executable-${{ matrix.os }}
           path: dist/
@@ -46,7 +46,7 @@ jobs:
 
     steps:
       - name: Download artifacts 🏺
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           path: dist
 
