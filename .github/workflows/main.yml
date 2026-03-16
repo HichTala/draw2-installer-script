@@ -9,7 +9,7 @@ jobs:
     name: Building Installer ⚙️
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v4
       
       - name: PyInstaller Windows
         # You may pin to the exact commit or the version.
@@ -17,3 +17,4 @@ jobs:
         uses: JackMcKew/pyinstaller-action-windows@main
         with:
           path: src
+          spec: src/draw2-installer-script.spec
