@@ -6,14 +6,13 @@ a = Analysis(
     pathex=[],
     binaries=[],
     datas=[],
-    hiddenimports=[],
+    hiddenimports=['pkg_resources.extern'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
     excludes=[],
     noarchive=False,
     optimize=0,
-    hiddenimports=['pkg_resources.extern'],
 )
 pyz = PYZ(a.pure)
 
