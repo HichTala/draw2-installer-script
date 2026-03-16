@@ -3,7 +3,7 @@ run-name: ${{ github.ref_name }} push run 🚀
 on:
   push:
     branches:
-    - main
+    - master
 jobs:
   pyinstaller:
     name: Building Installer ⚙️
