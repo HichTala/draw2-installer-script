@@ -20,3 +20,11 @@ jobs:
         with:
           name: name-of-artifact
           path: src/dist/windows
+      
+      - name: Upload to latest GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          files: src/dist/windows/**
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
