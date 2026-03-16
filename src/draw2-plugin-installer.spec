@@ -13,6 +13,7 @@ a = Analysis(
     excludes=[],
     noarchive=False,
     optimize=0,
+    hiddenimports=['pkg_resources.extern'],
 )
 pyz = PYZ(a.pure)
 
