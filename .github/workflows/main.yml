@@ -2,8 +2,8 @@ name: CI
 run-name: ${{ github.ref_name }} push run 🚀
 on:
   push:
-    tags:
-      - "v*.*.*"   # runs only when you push a version tag like v1.0.0
+    branches:
+      - master
 
 jobs:
   build:
