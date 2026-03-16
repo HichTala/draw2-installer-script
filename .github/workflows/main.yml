@@ -15,4 +15,3 @@ jobs:
         uses: JackMcKew/pyinstaller-action-windows@v0.1.2
         with:
           path: src
-          spec: src/draw2-installer-script.spec
