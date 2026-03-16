@@ -8,7 +8,6 @@ a = Analysis(
     datas=[],
     hiddenimports=['pkg_resources.extern'],
     hookspath=[],
-    hooksconfig={},
     runtime_hooks=[],
     excludes=[],
     noarchive=False,
