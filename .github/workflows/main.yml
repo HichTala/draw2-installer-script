@@ -24,7 +24,7 @@ jobs:
       - name: Upload to latest GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: latest
+          tag_name: 1.0.0
           files: src/dist/windows/**
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
