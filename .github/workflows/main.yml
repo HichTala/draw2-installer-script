@@ -1,36 +1,58 @@
-name: PyInstaller Windows
-run-name: ${{ github.ref_name }} push run 🚀
+name: Build executables
+
 on:
   push:
-    branches:
-    - master
-
-permissions:
-  contents: write
+    tags:
+      - "v*.*.*"   # runs only when you push a version tag like v1.0.0
 
 jobs:
-  pyinstaller:
-    name: Building Installer ⚙️
-    runs-on: ubuntu-latest
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+
     steps:
-      - name: Setup 🛠️
-        uses: actions/checkout@v6
-      
-      - name: Running Installer 🚀
-        uses: JackMcKew/pyinstaller-action-windows@v0.1.2
+      - name: Checkout code ✅
+        uses: actions/checkout@v5
+
+      - name: Set up Python 🐍
+        uses: actions/setup-python@v6
         with:
-          path: src
-      
-      - name: Uploading Artifact 📤
-        uses: actions/upload-artifact@v6
+          python-version: "3.12"
+
+      - name: Install dependencies 📚
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+          pip install PyQt5
+          pip install pyinstaller
+
+      - name: Build executable 🧱
+        run: |
+          pyinstaller --noconsole --clean --noconfirm --noupx --uac-admin --onefile src/installer_pyqt.py --name draw2-plugin-installer --icon=src/icone.ico
+
+      - name: Upload artifact 📤
+        uses: actions/upload-artifact@v4
         with:
-          name: draw2-installer
-          path: src/dist/windows
-      
-      - name: Upload to GitHub Release 📦
+          name: executable-${{ matrix.os }}
+          path: dist/
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download artifacts 🏺
+        uses: actions/download-artifact@v5
+        with:
+          path: dist
+
+      - name: Create Release 🏷️
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: 1.0.0
-          files: src/dist/windows/**
+          files: dist/**/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
