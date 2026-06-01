@@ -128,7 +128,7 @@ class InstallerApp(QtWidgets.QMainWindow):
         self.resize(600, 350)
 
         # Defaults (same URLs as original)
-        plugin_version = "0.2.0"
+        plugin_version = "0.2.1"
         self.windows_plugin = f"https://github.com/HichTala/draw2-plugin/releases/download/{plugin_version}/draw2-plugin-{plugin_version}-windows-x64.zip"
         self.python_embed = f"https://github.com/HichTala/draw2-plugin/releases/download/{plugin_version}/python-3.12.9-embed-amd64.zip"
 
