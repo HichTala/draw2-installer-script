@@ -54,7 +54,7 @@ class InstallerWorker(QtCore.QObject):
             src_dll = os.path.join(self.draw_dir, "draw2-plugin", "bin", "64bit", "draw2-plugin.dll")
             src_data = os.path.join(self.draw_dir, "draw2-plugin", "data", "locale")
             dest_dir = os.path.join(self.obs_path, "obs-plugins", "64bit")
-            dest_data = os.path.join(self.obs_path, "data", "obs-plugins", "draw2-plugin")
+            dest_data = os.path.join(self.obs_path, "data", "obs-plugins", "draw2-plugin", "locale")
             dest_decklists = os.path.join(self.obs_path, "data", "obs-plugins", "draw2-plugin", "decklists")
             os.makedirs(dest_dir, exist_ok=True)
             if os.path.exists(src_pdb) and os.path.exists(src_dll):
