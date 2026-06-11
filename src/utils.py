@@ -69,6 +69,14 @@ def run_subprocess(args, env=None, cwd=None, stdout=None, stderr=None, timeout=N
     out, err = proc.communicate(timeout=timeout)
     return proc.returncode, out.decode(errors="replace"), err.decode(errors="replace")
 
+def detect_nvidia_gpu():
+    try:
+        result = subprocess.run(["nvidia-smi"], capture_output=True, timeout=5)
+        if result.returncode == 0:
+            return True
+    except (subprocess.SubprocessError, FileNotFoundError):
+        pass
+    return False
 
 def run_python_pip(python_exe, get_pip, requirements_txt, target):
     # ensure pip exists, then run pip install -r requirements.txt --target <site-packages-or-lib-dir>
@@ -78,8 +86,11 @@ def run_python_pip(python_exe, get_pip, requirements_txt, target):
     # upgrade pip
     subprocess_return.append(run_subprocess([python_exe, "-m", "pip", "install", "--upgrade", "pip"]))
     # install torch
-    subprocess_return.append(run_subprocess([python_exe, "-m", "pip", "install", "torch", "torchvision", "--index-url",
-                                             "https://download.pytorch.org/whl/cu126"]))
+    if detect_nvidia_gpu():
+        subprocess_return.append(run_subprocess([python_exe, "-m", "pip", "install", "torch", "torchvision", "--index-url",
+                                                 "https://download.pytorch.org/whl/cu126"]))
+    else:
+        subprocess_return.append(run_subprocess([python_exe, "-m", "pip", "install", "torch", "torchvision"]))
     # install requirements
     subprocess_return.append(run_subprocess([python_exe, "-m", "pip", "install", "-r", requirements_txt]))
     return subprocess_return
