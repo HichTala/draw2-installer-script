@@ -67,7 +67,12 @@ class InstallerWorker(QtCore.QObject):
                     shutil.rmtree(os.path.join(dest_data, "locale", "locale"))
                 shutil.move(src_data, dest_data)
                 if os.path.isdir(old_dest_decklists):
-                    shutil.move(old_dest_decklists, dest_decklists)
+                    if os.path.isdir(os.path.join(dest_decklists, "decklists")):
+                        for decklist in os.listdir(old_dest_decklists):
+                            shutil.move(os.path.join(old_dest_decklists, decklist), os.path.join(dest_decklists, "decklists"))
+                        shutil.rmtree(os.path.join(dest_decklists, "decklists"))
+                    else:
+                        shutil.move(old_dest_decklists, dest_decklists)
                 os.makedirs(os.path.join(dest_decklists, "decklists"), exist_ok=True)
             else:
                 # If file missing, warn but continue
