@@ -54,16 +54,21 @@ class InstallerWorker(QtCore.QObject):
             src_dll = os.path.join(self.draw_dir, "draw2-plugin", "bin", "64bit", "draw2-plugin.dll")
             src_data = os.path.join(self.draw_dir, "draw2-plugin", "data", "locale")
             dest_dir = os.path.join(self.obs_path, "obs-plugins", "64bit")
-            dest_data = os.path.join(self.obs_path, "data", "obs-plugins", "draw2-plugin", "locale")
-            dest_decklists = os.path.join(self.obs_path, "data", "obs-plugins", "draw2-plugin", "decklists")
+            dest_data = os.path.join(self.obs_path, "data", "obs-plugins", "draw2-plugin")
+            old_dest_decklists = os.path.join(self.obs_path, "data", "obs-plugins", "draw2-plugin", "decklists")
+            dest_decklists = os.path.join(os.environ["APPDATA"], "obs-studio", "plugin_config", "draw2-plugin")
             os.makedirs(dest_dir, exist_ok=True)
             if os.path.exists(src_pdb) and os.path.exists(src_dll):
                 shutil.move(src_pdb, os.path.join(dest_dir, "draw2-plugin.pdb"))
                 shutil.move(src_dll, os.path.join(dest_dir, "draw2-plugin.dll"))
                 if os.path.isdir(os.path.join(dest_data, "locale")):
                     shutil.rmtree(os.path.join(dest_data, "locale"))
+                if os.path.isdir(os.path.join(dest_data, "locale", "locale")):
+                    shutil.rmtree(os.path.join(dest_data, "locale", "locale"))
                 shutil.move(src_data, dest_data)
-                os.makedirs(dest_decklists, exist_ok=True)
+                if os.path.isdir(old_dest_decklists):
+                    shutil.move(old_dest_decklists, dest_decklists)
+                os.makedirs(os.path.join(dest_decklists, "decklists"), exist_ok=True)
             else:
                 # If file missing, warn but continue
                 self.status_changed.emit("Warning: expected plugin pdb not found after extract")
@@ -89,8 +94,14 @@ class InstallerWorker(QtCore.QObject):
             if os.path.exists(extracted_path):
                 # remove existing python folder if present
                 if os.path.exists(python_folder):
-                    shutil.rmtree(python_folder)
-                os.rename(extracted_path, python_folder)
+                    old_draw_folder = os.path.join(python_folder, "Lib", "site-packages", "draw")
+                    site_packages = os.path.join(python_folder, "Lib", "site-packages")
+                    new_draw_folder = os.path.join(extracted_path, "Lib", "site-packages", "draw")
+                    shutil.rmtree(old_draw_folder)
+                    shutil.move(new_draw_folder, site_packages)
+                    shutil.rmtree(extracted_path)
+                else:
+                    os.rename(extracted_path, python_folder)
             elif os.path.exists(python_folder):
                 # already correct
                 pass
