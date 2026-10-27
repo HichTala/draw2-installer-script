@@ -70,7 +70,7 @@ class InstallerWorker(QtCore.QObject):
                     if os.path.isdir(os.path.join(dest_decklists, "decklists")):
                         for decklist in os.listdir(old_dest_decklists):
                             shutil.move(os.path.join(old_dest_decklists, decklist), os.path.join(dest_decklists, "decklists"))
-                        shutil.rmtree(os.path.join(dest_decklists, "decklists"))
+                        shutil.rmtree(os.path.join(old_dest_decklists, "decklists"))
                     else:
                         shutil.move(old_dest_decklists, dest_decklists)
                 os.makedirs(os.path.join(dest_decklists, "decklists"), exist_ok=True)
